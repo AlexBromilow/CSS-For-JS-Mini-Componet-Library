@@ -24,8 +24,11 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
 
   const styles = SIZES[size];
   return (
-    <Wrapper style={styles}>
+    <Wrapper>
       <VisuallyHidden>{label}</VisuallyHidden>
+      <IconStyles style={{ '--size': styles.iconSize + 'px' }}>
+        <Icon id={icon} size={styles.iconSize} />
+      </IconStyles>
       <SearchInput
         placeholder={placeholder}
         style={{
@@ -35,21 +38,20 @@ const IconInput = ({ label, icon, width = 250, size, placeholder }) => {
           '--font-size': styles.fontSize / 16 + 'rem',
         }}
       />
-      <IconStyles>
-        <Icon id={icon} size={styles.iconSize} />
-      </IconStyles>
     </Wrapper>
   );
 };
 
 export default IconInput;
 
-const Wrapper = styled.div`
+const Wrapper = styled.label`
+  display: block;
   position: relative;
 `;
 
 const SearchInput = styled.input`
   width: var(--width);
+  height: var(--height);
   font-size: var(--font-size);
   border: none;
   border-bottom: var(--border-thickness) solid ${COLORS.black};
@@ -57,15 +59,10 @@ const SearchInput = styled.input`
 
   font-weight: 700;
   color: ${COLORS.gray700};
+  outline-offset: 2px;
 
   &:hover {
     color: ${COLORS.black};
-  }
-
-  &:focus {
-    outline: 1px dotted #212121;
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: 2px;
   }
 
   &::placeholder {
@@ -77,11 +74,10 @@ const SearchInput = styled.input`
 const IconStyles = styled.div`
   position: absolute;
   top: 0px;
-  left: 0px;
+  bottom: 0px;
+  margin: auto 0;
   color: ${COLORS.gray700};
-  font-size: var(--font-size);
-  transform: var(--scale);
-  pointer-events: none;
+  height: var(--size);
 
   ${SearchInput}:hover + & {
     color: ${COLORS.black};
